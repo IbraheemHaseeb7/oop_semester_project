@@ -89,59 +89,11 @@ public class Demo extends Application {
         signup.setCursor(Cursor.HAND);
 
         // hover styling
-        signin.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
+        signin.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(signin));
+        signup.addEventHandler(MouseEvent.MOUSE_ENTERED,  new ButtonHoverIn(signup));
 
-                // resetting styles
-                signin.setStyle(null);
-
-                buttonColors = "-fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
-
-                // reapplying styles
-                signin.setStyle(buttonColors);
-            }
-        });
-        signup.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-
-                // resetting styles
-                signup.setStyle(null);
-
-                buttonColors = "-fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
-
-                // reapplying styles
-                signup.setStyle(buttonColors);
-            }
-        });
-
-        signin.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-
-                // resetting styles
-                signin.setStyle(null);
-
-                buttonColors = "-fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
-
-                // reapplying styles
-                signin.setStyle(buttonColors);
-            }
-        });
-        signup.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-
-                // resetting styles
-                signup.setStyle(null);
-
-                buttonColors = "-fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
-
-                // reapplying styles
-                signup.setStyle(buttonColors);
-            }
-        });
+        signin.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(signin));
+        signup.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(signup));
 
         // Creating all scenes
         scene = new Scene(bp, 500, 500);
@@ -203,6 +155,6 @@ public class Demo extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

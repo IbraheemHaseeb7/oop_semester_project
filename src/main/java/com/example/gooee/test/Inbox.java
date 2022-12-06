@@ -1,11 +1,14 @@
 package com.example.gooee.test;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -60,7 +63,20 @@ public class Inbox extends Page {
         // Event Handling
         back.setOnAction(new BackButtonEventHandling(stage, scene));
         logout.setOnAction(new BackButtonEventHandling(stage, scene));
+        back.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(back));
+        search.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(search));
+        logout.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(logout));
+        back.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(back));
+        search.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(search));
+        logout.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(logout));
 
+        search.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Search searchObj = new Search(stage, inboxScene);
+                searchObj.display();
+            }
+        });
         stage.setScene(inboxScene);
         stage.show();
     }
