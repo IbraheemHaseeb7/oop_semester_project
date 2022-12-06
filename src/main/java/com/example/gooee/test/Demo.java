@@ -106,12 +106,7 @@ public class Demo extends Application {
         leftContainer.setMinWidth(50);
 
         // screen resize listener
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                developersContainer.setMinWidth(scene.getWidth() - 100);
-            }
-        });
+        scene.widthProperty().addListener(new GrowClass(100, scene, developersContainer));
 
         developersContainer.setMinWidth(scene.getWidth() - 100);
         developersContainer.setAlignment(Pos.CENTER);
