@@ -101,7 +101,7 @@ public class Search extends Page{
         Scene searchScene = new Scene(bp, scene.getWidth(), scene.getHeight());
         searchScene.widthProperty().addListener(new GrowClass(300, searchScene, textHbox));
         for (HashMap<Object, Object> data : dataArray) {
-            searchResults.getChildren().add(new UserBox((String)data.get("name"), (String)data.get("uid"), searchScene).display());
+            searchResults.getChildren().add(new UserBox((String)data.get("name"), (String)data.get("uid"), searchScene, stage).display());
         }
         searchScene.widthProperty().addListener(new GrowClass(50, searchScene, searchResults));
         stage.setScene(searchScene);

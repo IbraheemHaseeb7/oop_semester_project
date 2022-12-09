@@ -28,7 +28,7 @@ public class Demo extends Application {
     // Strings for Styling
     static String themeColor = "eaeaea";
     static String fontColors = "-fx-text-fill: #fff;";
-    static String buttonColors = "-fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
+    static String buttonColors = " -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + themeColor;
     Scene scene;
     @Override
     public void start(Stage stage) throws Exception {
