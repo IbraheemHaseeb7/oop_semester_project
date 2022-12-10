@@ -17,7 +17,7 @@ public class ButtonHoverIn implements EventHandler<MouseEvent> {
         // resetting styles
         button.setStyle(null);
 
-        Demo.buttonColors = "-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #8b8b8b; -fx-text-fill: #000; -fx-border-width: 3; -fx-border-color: #" + Demo.themeColor;
+        Demo.buttonColors = "-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #8b8b8b; -fx-text-fill: #000; -fx-border-width: 2; -fx-border-color: #" + Demo.themeColor;
 
         // reapplying styles
         button.setStyle(Demo.buttonColors);

@@ -77,6 +77,9 @@ public class Inbox extends Page {
                 searchObj.display();
             }
         });
+
+
+
         stage.setScene(inboxScene);
         stage.show();
     }

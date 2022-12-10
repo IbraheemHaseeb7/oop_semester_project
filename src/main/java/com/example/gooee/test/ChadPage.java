@@ -87,23 +87,9 @@ public class ChadPage extends Page{
         bp.setStyle("-fx-background-color: #000");
 
         Scene chadPageScene = new Scene(bp, scene.getWidth(), scene.getHeight());
-        chadPageScene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                topHboxContainer.setMinWidth(chadPageScene.getWidth());
-                nameContainer.setMinWidth(chadPageScene.getWidth()/2);
-                backButtonContainer.setMinWidth(chadPageScene.getWidth()/2);
-            }
-        });
 
-        chadPageScene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                bigBottomHBox.setMinWidth(chadPageScene.getWidth());
-                messageTypingContainer.setMinWidth(chadPageScene.getWidth()/2);
-                sendButtonContainer.setMinWidth(chadPageScene.getWidth()/2);
-            }
-        });
+        chadPageScene.widthProperty().addListener(new GrowClass(100, chadPageScene, messageTypingContainer));
+        chadPageScene.widthProperty().addListener(new GrowClassNode<HBox, TextField>(0, messageTypingContainer, messageTyping));
 
         stage.setScene(chadPageScene);
     }

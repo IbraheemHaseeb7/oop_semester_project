@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +53,6 @@ public class Search extends Page{
         Button searchButton = new Button("Search");
         Button backButton = new Button("Back Button");
         BorderPane bp = new BorderPane();
-        GridPane gp = new GridPane();
         HBox hBox = new HBox();
         HBox textHbox = new HBox();
         HBox searcButtonHbox = new HBox();
@@ -87,9 +88,18 @@ public class Search extends Page{
         backButton.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(backButton));
 
         VBox searchResults = new VBox();
+        GridPane gp = new GridPane();
 
+        Scene searchScene = new Scene(bp, scene.getWidth(), scene.getHeight());
 
-        bp.setCenter(searchResults);
+        int counter = 0;
+        for (HashMap<Object, Object> data : dataArray) {
+            gp.add(new UserBox((String)data.get("name"), (String)data.get("uid"), searchScene, stage).display(), 0, counter++);
+        }
+
+        gp.setGridLinesVisible(true);
+
+        bp.setCenter(gp);
 
         backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -98,12 +108,10 @@ public class Search extends Page{
             }
         });
 
-        Scene searchScene = new Scene(bp, scene.getWidth(), scene.getHeight());
         searchScene.widthProperty().addListener(new GrowClass(300, searchScene, textHbox));
-        for (HashMap<Object, Object> data : dataArray) {
-            searchResults.getChildren().add(new UserBox((String)data.get("name"), (String)data.get("uid"), searchScene, stage).display());
-        }
         searchScene.widthProperty().addListener(new GrowClass(50, searchScene, searchResults));
+        searchScene.widthProperty().addListener(new GrowClassNode<HBox, TextField>(0, textHbox, textField));
+
         stage.setScene(searchScene);
         stage.show();
     }

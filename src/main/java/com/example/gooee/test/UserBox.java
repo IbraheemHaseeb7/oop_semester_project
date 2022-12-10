@@ -38,7 +38,6 @@ public class UserBox {
         message.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(message));
         message.addEventHandler(MouseEvent.MOUSE_EXITED, new ButtonHoverOut(message));
 
-
         message.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -63,16 +62,16 @@ public class UserBox {
         hbox.getChildren().addAll(nameContainer, messageContainer);
         hbox.setAlignment(Pos.CENTER);
 
-        messageContainer.setMinWidth(scene.getWidth() / 2 + 50);
-        nameContainer.setMinWidth(scene.getWidth() / 2 + 50);
-        messageContainer.setMaxWidth(scene.getWidth() / 2 + 50);
-        nameContainer.setMaxWidth(scene.getWidth() / 2 + 50);
+        messageContainer.setMinWidth(scene.getWidth() / 2);
+        nameContainer.setMinWidth(scene.getWidth() / 2);
+        messageContainer.setMaxWidth(scene.getWidth() / 2);
+        nameContainer.setMaxWidth(scene.getWidth() / 2);
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2 + 50, scene, hbox));
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2 + 50, scene, messageContainer));
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2 + 50, scene, nameContainer));
+                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, hbox));
+                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, messageContainer));
+                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, nameContainer));
             }
         });
 
