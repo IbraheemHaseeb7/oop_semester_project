@@ -1,6 +1,8 @@
 package com.example.gooee.test;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -78,7 +80,14 @@ public class Inbox extends Page {
             }
         });
 
-
+        inboxScene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                backHbox.setMinWidth(inboxScene.getWidth()/3);
+                SearchHbox.setMinWidth(inboxScene.getWidth()/3);
+                logoutHbox.setMinWidth(inboxScene.getWidth()/3);
+            }
+        });
 
         stage.setScene(inboxScene);
         stage.show();

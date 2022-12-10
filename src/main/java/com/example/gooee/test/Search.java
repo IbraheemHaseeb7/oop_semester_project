@@ -63,7 +63,6 @@ public class Search extends Page{
         searcButtonHbox.getChildren().add(searchButton);
         hBox.getChildren().addAll(backHbox, textHbox, searcButtonHbox);
         backHbox.setMinWidth(150);
-        backHbox.setMaxWidth(150);
         backHbox.setAlignment(Pos.CENTER);
         backHbox.setPadding(new Insets(10));
         textHbox.setAlignment(Pos.CENTER);
@@ -72,7 +71,6 @@ public class Search extends Page{
         searcButtonHbox.setAlignment(Pos.CENTER);
         searcButtonHbox.setPadding(new Insets(10));
         searcButtonHbox.setMinWidth(150);
-        searcButtonHbox.setMaxWidth(150);
         hBox.setAlignment(Pos.CENTER);
         bp.setTop(hBox);
 
@@ -91,6 +89,8 @@ public class Search extends Page{
         GridPane gp = new GridPane();
 
         Scene searchScene = new Scene(bp, scene.getWidth(), scene.getHeight());
+        textHbox.setMinWidth(searchScene.getWidth() - 300);
+        textField.setMinWidth(textHbox.getWidth());
 
         int counter = 0;
         for (HashMap<Object, Object> data : dataArray) {
