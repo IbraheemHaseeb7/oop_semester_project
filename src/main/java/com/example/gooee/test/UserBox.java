@@ -14,12 +14,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class UserBox {
     String name;
     String uid;
     Scene scene;
     Stage stage;
+    HBox hbox = new HBox();
+    HBox messageContainer = new HBox();
+    HBox nameContainer = new HBox();
 
     public UserBox(String name, String uid, Scene scene, Stage stage) {
         this.name = name;
@@ -29,7 +33,6 @@ public class UserBox {
     }
 
     public HBox display() {
-        HBox hbox = new HBox();
 
         Button message = new Button("Message Me");
         message.setCursor(Cursor.HAND);
@@ -46,7 +49,6 @@ public class UserBox {
             }
         });
 
-        HBox messageContainer = new HBox();
         messageContainer.getChildren().add(message);
         messageContainer.setPadding(new Insets(10));
         messageContainer.setAlignment(Pos.CENTER_RIGHT);
@@ -54,26 +56,27 @@ public class UserBox {
         Label name = new Label(this.name);
         name.setFont(new Font(15));
         name.setStyle("-fx-text-fill: white");
-        HBox nameContainer = new HBox();
         nameContainer.setPadding(new Insets(10));
         nameContainer.getChildren().add(name);
         nameContainer.setAlignment(Pos.CENTER_LEFT);
 
         hbox.getChildren().addAll(nameContainer, messageContainer);
         hbox.setAlignment(Pos.CENTER);
+        hbox.setMinWidth(scene.getWidth());
+        messageContainer.setStyle("-fx-border-color: #fff; -fx-border-width: 5");
+        nameContainer.setStyle("-fx-border-color: #fff; -fx-border-width: 5");
+        System.out.println(scene.getWidth()/2);
 
-        messageContainer.setMinWidth(scene.getWidth() / 2);
-        nameContainer.setMinWidth(scene.getWidth() / 2);
-        messageContainer.setMaxWidth(scene.getWidth() / 2);
-        nameContainer.setMaxWidth(scene.getWidth() / 2);
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, hbox));
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, messageContainer));
-                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, nameContainer));
-            }
-        });
+//
+        messageContainer.setMinWidth(scene.getWidth()/2);
+        nameContainer.setMinWidth(scene.getWidth()/2);
+//        messageContainer.setMaxWidth(scene.getWidth());
+//        nameContainer.setMaxWidth(scene.getWidth());
+
+        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth(), scene, hbox));
+        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, messageContainer));
+        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, nameContainer));
+
 
 
         return hbox;
