@@ -40,6 +40,8 @@ public class GrowClass implements ChangeListener<Number> {
     @Override
     public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
         if (isHbox == true) {
+            System.out.println(scene.getWidth());
+            System.out.println(subtraction);
             hBox.setMinWidth(scene.getWidth() - subtraction);
         } else {
             vBox.setMinWidth(scene.getWidth() - subtraction);

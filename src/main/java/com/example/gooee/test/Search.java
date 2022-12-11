@@ -104,6 +104,8 @@ public class Search extends Page{
         backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                stage.setWidth(searchScene.getWidth());
+                stage.setHeight(searchScene.getHeight());
                 stage.setScene(scene);
             }
         });

@@ -62,20 +62,20 @@ public class UserBox {
 
         hbox.getChildren().addAll(nameContainer, messageContainer);
         hbox.setAlignment(Pos.CENTER);
-        hbox.setMinWidth(scene.getWidth());
-        messageContainer.setStyle("-fx-border-color: #fff; -fx-border-width: 5");
-        nameContainer.setStyle("-fx-border-color: #fff; -fx-border-width: 5");
-        System.out.println(scene.getWidth()/2);
+        hbox.setMinWidth(scene.getWidth() - 10);
 
-//
         messageContainer.setMinWidth(scene.getWidth()/2);
         nameContainer.setMinWidth(scene.getWidth()/2);
-//        messageContainer.setMaxWidth(scene.getWidth());
-//        nameContainer.setMaxWidth(scene.getWidth());
 
-        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth(), scene, hbox));
-        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, messageContainer));
-        scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, nameContainer));
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                scene.widthProperty().addListener(new GrowClass(10, scene, hbox));
+                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, messageContainer));
+                scene.widthProperty().addListener(new GrowClass((int)scene.getWidth() / 2, scene, nameContainer));
+            }
+        });
+
 
 
 

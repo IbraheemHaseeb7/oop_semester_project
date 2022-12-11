@@ -81,8 +81,16 @@ public class Inbox extends Page {
         Scene inboxScene = new Scene(bp, scene.getWidth(), scene.getHeight());
 
         // Event Handling
-        back.setOnAction(new BackButtonEventHandling(stage, scene));
-        logout.setOnAction(new LogoutButtonEventHandling(stage, scene));
+//        back.setOnAction(new BackButtonEventHandling(stage, scene));
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setWidth(inboxScene.getWidth());
+                stage.setHeight(inboxScene.getHeight());
+                stage.setScene(scene);
+            }
+        });
+        logout.setOnAction(new LogoutButtonEventHandling(stage, scene, inboxScene));
 
         back.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(back));
         search.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(search));
@@ -114,14 +122,12 @@ public class Inbox extends Page {
         vbox.setStyle("-fx-background-color: #000");
         scrollPane.setStyle("-fx-background-color: #000");
         scrollPane.setMinWidth(inboxScene.getWidth()-10);
-        vbox.setMinWidth(inboxScene.getWidth());
+        vbox.setMinWidth(inboxScene.getWidth() - 10);
         scrollPane.setMinHeight(inboxScene.getHeight());
         vbox.setMinHeight(inboxScene.getHeight());
 
         for(int counter = 0; counter < dataArray.size(); counter++){
             UserBox ub = new UserBox((String) dataArray.get(counter).get("name"), (String) dataArray.get(counter).get("uid"), inboxScene, stage);
-//            ub.messageContainer.setMinWidth(inboxScene.getWidth()/2);
-//            ub.nameContainer.setMinWidth(inboxScene.getWidth()/2);
             vbox.getChildren().add(ub.display());
         }
 
