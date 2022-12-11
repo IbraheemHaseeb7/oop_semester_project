@@ -49,6 +49,10 @@ public class Demo extends Application {
         Label label2 = new Label();
         label2.setText("Google Authentication");
         bp.setCenter(gp);
+        gp.setVgap(10);
+        gp.setHgap(10);
+        gp.setAlignment(Pos.CENTER);
+
         gp.add(label2, 0, 0);
         gp.add(signin, 0, 1);
         gp.add(signup, 0, 2);
@@ -60,13 +64,8 @@ public class Demo extends Application {
         ColorPicker colorPicker = new ColorPicker();
         HBox colorPickerContainer = new HBox();
         colorPickerContainer.getChildren().add(colorPicker);
-
         bp.setBottom(colorPickerContainer);
-        bp.setStyle("-fx-background-color: #000");
 
-        gp.setVgap(10);
-        gp.setHgap(10);
-        gp.setAlignment(Pos.CENTER);
 
         // applying styling here
         label.setFont(new Font("Times New Roman", 25));
@@ -87,6 +86,9 @@ public class Demo extends Application {
         signin.setCursor(Cursor.HAND);
         signup.setStyle(buttonColors);
         signup.setCursor(Cursor.HAND);
+
+        bp.setStyle("-fx-background-color: #000");
+
 
         // hover styling
         signin.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(signin));

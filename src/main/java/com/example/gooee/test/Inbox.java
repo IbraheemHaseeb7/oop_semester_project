@@ -1,6 +1,8 @@
 package com.example.gooee.test;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -39,6 +41,8 @@ public class Inbox extends Page {
         backHbox.getChildren().add(back);
         SearchHbox.getChildren().add(search);
         logoutHbox.getChildren().add(logout);
+        hBox.getChildren().addAll(backHbox, SearchHbox, logoutHbox);
+
         backHbox.setAlignment(Pos.TOP_LEFT);
         SearchHbox.setAlignment(Pos.CENTER);
         logoutHbox.setAlignment(Pos.TOP_RIGHT);
@@ -47,22 +51,25 @@ public class Inbox extends Page {
         backHbox.setMinWidth(scene.getWidth()/3);
         SearchHbox.setMinWidth(scene.getWidth()/3);
         logoutHbox.setMinWidth(scene.getWidth()/3);
-        hBox.getChildren().addAll(backHbox, SearchHbox, logoutHbox);
 
         // Styling
-        bp.setStyle("-fx-background-color: black");
+        bp.setStyle("-fx-background-color: #000");
         back.setStyle(Demo.buttonColors);
         search.setStyle(Demo.buttonColors);
         logout.setStyle(Demo.buttonColors);
+
         back.setCursor(Cursor.HAND);
         search.setCursor(Cursor.HAND);
         logout.setCursor(Cursor.HAND);
 
         Scene inboxScene = new Scene(bp, scene.getWidth(), scene.getHeight());
+        inboxScene.widthProperty().addListener(new GrowClass((int) inboxScene.getWidth()/3, inboxScene, backHbox));
+        inboxScene.widthProperty().addListener(new GrowClass((int) inboxScene.getWidth()/3, inboxScene, SearchHbox));
+        inboxScene.widthProperty().addListener(new GrowClass((int) inboxScene.getWidth()/3, inboxScene, logoutHbox));
 
         // Event Handling
         back.setOnAction(new BackButtonEventHandling(stage, scene));
-        logout.setOnAction(new BackButtonEventHandling(stage, scene));
+        logout.setOnAction(new LogoutButtonEventHandling(stage, scene));
         back.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(back));
         search.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(search));
         logout.addEventHandler(MouseEvent.MOUSE_ENTERED, new ButtonHoverIn(logout));
@@ -77,8 +84,6 @@ public class Inbox extends Page {
                 searchObj.display();
             }
         });
-
-
 
         stage.setScene(inboxScene);
         stage.show();

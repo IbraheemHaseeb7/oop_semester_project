@@ -14,19 +14,11 @@ public class GrowClass implements ChangeListener<Number> {
     HBox hBox;
     VBox vBox;
     boolean isHbox = true;
-    Node node;
 
     public GrowClass(int subtraction, Scene scene, HBox hBox) {
         this.subtraction = subtraction;
         this.scene = scene;
         this.hBox = hBox;
-        isHbox = true;
-    }
-
-    public GrowClass(int subtraction, Scene scene, Node node) {
-        this.subtraction = subtraction;
-        this.scene = scene;
-        this.node = node;
         isHbox = true;
     }
 
@@ -40,6 +32,7 @@ public class GrowClass implements ChangeListener<Number> {
     @Override
     public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
         if (isHbox == true) {
+            System.out.println(scene.getWidth());
             hBox.setMinWidth(scene.getWidth() - subtraction);
         } else {
             vBox.setMinWidth(scene.getWidth() - subtraction);
