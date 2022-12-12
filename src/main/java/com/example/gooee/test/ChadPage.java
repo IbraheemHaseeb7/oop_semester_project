@@ -75,7 +75,7 @@ public class ChadPage extends Page{
         });
 
         Label name = new Label(this.name);
-        name.setFont(new Font("Times New Roman", 25));
+        name.setFont(new Font("Gotham", 20));
 
         HBox topHboxContainer = new HBox();
         HBox nameContainer = new HBox();
@@ -83,6 +83,7 @@ public class ChadPage extends Page{
         HBox backButtonContainer = new HBox();
         backButtonContainer.getChildren().add(backButton);
         topHboxContainer.getChildren().addAll(nameContainer, backButtonContainer);
+        topHboxContainer.setStyle("-fx-border-style: hidden hidden solid hidden; -fx-border-bottom: 2px; -fx-border-color: " + Demo.themeColor);
 
         topHboxContainer.setAlignment(Pos.CENTER);
         nameContainer.setAlignment(Pos.TOP_LEFT);

@@ -85,8 +85,6 @@ public class Inbox extends Page {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                stage.setWidth(inboxScene.getWidth());
-                stage.setHeight(inboxScene.getHeight());
                 stage.setScene(scene);
             }
         });
