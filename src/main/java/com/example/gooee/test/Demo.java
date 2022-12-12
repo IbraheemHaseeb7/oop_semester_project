@@ -27,6 +27,7 @@ public class Demo extends Application {
 
     // Strings for Styling
     static String themeColor = "eaeaea";
+    static String userID = "123";
     static String fontColors = "-fx-text-fill: #fff;";
     static String buttonColors = "-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-insets: 5px; -fx-background-insets: 5px;  -fx-background-color: #b3b3b3; -fx-text-fill: #000; -fx-border-width: 2; -fx-border-color: #" + themeColor;
     Scene scene;
