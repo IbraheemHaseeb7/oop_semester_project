@@ -23,7 +23,7 @@ public class SignUpPage extends VBox {
     Stage stage = new Stage();
     Scene scene;
 
-    public SignUpPage(String name, Stage stage1, Scene scene1) {
+    public SignUpPage(String name, Stage stage1, Scene previousScene) {
 
         // creating layouts
         HBox headingContainer = new HBox();
@@ -93,12 +93,16 @@ public class SignUpPage extends VBox {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                button.setText("Working on it...");
+                ChaddingPage cp;
                 if (name.equals("Sign Up")) {
                     new Auth().createAccount(username, password);
+                     cp = new ChaddingPage(stage1, previousScene);
                 } else {
                     new Auth().login(username, password);
+                     cp = new ChaddingPage(stage1, previousScene);
                 }
-                if (HelloApplication.isAccount) stage1.setScene(scene1);
+                if (HelloApplication.isAccount) stage1.setScene(cp.chaddingPageScene);
                 stage.close();
             }
         });

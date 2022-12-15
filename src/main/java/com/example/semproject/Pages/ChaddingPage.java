@@ -3,6 +3,7 @@ package com.example.semproject.Pages;
 import com.example.semproject.Events.HoverIn;
 import com.example.semproject.Events.HoverOut;
 import com.example.semproject.HelloApplication;
+import com.example.semproject.MyComponents.InboxUsers;
 import com.example.semproject.MyComponents.Messages;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
@@ -33,21 +34,12 @@ import java.util.concurrent.ExecutionException;
 
 public class ChaddingPage extends BorderPane {
     // ==================================
-    ArrayList<HashMap<Object, Object>> list = new ArrayList<>();
-    HashMap<Object, Object> dummy = new HashMap<>();
     ArrayList<HashMap<String, Object>> messages = new ArrayList<>();
+    ArrayList<HashMap<Object, Object>> list = new ArrayList<>();
+    Firestore db = FirestoreClient.getFirestore();
 
     {
-        // inbox data
-        for (int counter = 0; counter < 4; counter++) {
-            dummy.put("name", "Rida" + counter);
-            dummy.put("uid", "123" + counter);
-            list.add(dummy);
-            dummy = new HashMap<>();
-        }
-
         // messages data
-        Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection("chat").get();
 
         try {
@@ -63,8 +55,40 @@ public class ChaddingPage extends BorderPane {
 
     // ==================================
 
+    public void getInboxList() {
+        // inbox data
+        CollectionReference chats = db.collection("chat");
+        Query q = chats.whereArrayContains("users", new HashMap<String, Object>() { { put("uid", "1671123299609uid"); put("username", "afds"); } });
+        ApiFuture<QuerySnapshot> inboxChats = q.get();
+
+        try {
+            for (QueryDocumentSnapshot d:inboxChats.get()) {
+
+                HashMap<String, Object> temp = (HashMap<String, Object>) d.getData();
+                list.add(new HashMap<Object, Object>() {
+                    {
+                        if (HelloApplication.userId.equals(((HashMap)((ArrayList)temp.get("users")).get(0)).get("uid"))) {
+                            put("name", ((HashMap)((ArrayList)temp.get("users")).get(1)).get("username"));
+                            put("uid", ((HashMap)((ArrayList)temp.get("users")).get(1)).get("uid"));
+                            put("room", temp.get("id"));
+                        } else {
+                            put("name", ((HashMap)((ArrayList)temp.get("users")).get(0)).get("username"));
+                            put("uid", ((HashMap)((ArrayList)temp.get("users")).get(0)).get("uid"));
+                            put("room", temp.get("id"));
+                        }
+                    }
+                });
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     Scene chaddingPageScene;
     public ChaddingPage(Stage stage, Scene scene){
+
+        getInboxList();
 
         chaddingPageScene = new Scene(this, 800, 500);
         this.setStyle("-fx-background-color: #fff");
@@ -99,16 +123,9 @@ public class ChaddingPage extends BorderPane {
         nameContainer.getChildren().add(name);
         sendContainer.getChildren().addAll(textArea, send);
 
+        // adding inbox list
         for (HashMap<Object, Object> d:list) {
-            Button b = new Button((String)d.get("name"));
-            b.setMinWidth(chaddingPageScene.getWidth() * 0.22);
-            b.setStyle("-fx-padding: 10; -fx-border-width: 1; -fx-border-color: #001aff; -fx-background-color: #fff; -fx-border-radius: 5");
-            b.setCursor(Cursor.HAND);
-            leftVbox.getChildren().add(b);
-        }
-
-        for (HashMap<String, Object> d:this.messages) {
-            messages.getChildren().add(new Messages((String)d.get("body"), (String)d.get("uid")));
+            leftVbox.getChildren().add(new InboxUsers(chaddingPageScene, (String)d.get("name"), (String)d.get("room"), this.messages, messages, send, textArea, scrollPane, name));
         }
 
         scrollPane.setContent(messages);
@@ -176,51 +193,6 @@ public class ChaddingPage extends BorderPane {
             public void handle(ActionEvent actionEvent) {
                 HelloApplication.isAccount = false;
                 stage.setScene(scene);
-            }
-        });
-
-        // sending data to the database
-        send.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Firestore db = FirestoreClient.getFirestore();
-                Date date = new Date();
-//                int id = date.getTime()
-
-                DocumentReference doc = db.collection("chat").document(+date.getTime() + "abcd");
-                Map<String, String> data = new HashMap<>();
-
-                data.put("body", textArea.getText());
-                data.put("uid", HelloApplication.userId);
-                data.put("id", date.getTime() + "");
-
-                ApiFuture<WriteResult> result = doc.set(data);
-                textArea.setText("");
-            }
-        });
-
-
-        // getting data from the database
-        Firestore db = FirestoreClient.getFirestore();
-        CollectionReference ref = db.collection("chat");
-
-        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirestoreException e) {
-                if (e != null) {
-                    System.out.println("Listen Failed");
-                    return;
-                }
-
-                assert queryDocumentSnapshots != null;
-                Map<String, Object> data = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocuments().size() - 1).getData();
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        messages.getChildren().add(new Messages((String)data.get("body"), (String)data.get("uid")));
-                        scrollPane.setVvalue(2);
-                    }
-                });
             }
         });
     }

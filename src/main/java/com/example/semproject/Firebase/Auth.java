@@ -22,13 +22,16 @@ public class Auth {
         DocumentReference doc = db.collection("accounts").document(+date.getTime() + "uid");
         Map<String, String> data = new HashMap<>();
 
+        String uid = date.getTime() + "uid";
+
         data.put("username", username.getText());
         data.put("password", password.getText());
-        data.put("uid", date.getTime() + "uid");
+        data.put("uid", uid);
 
         ApiFuture<WriteResult> result = doc.set(data);
         HelloApplication.isAccount = true;
         HelloApplication.userName = username.getText();
+        HelloApplication.userId = uid;
     }
 
     public void login(TextField username, PasswordField password) {
@@ -41,6 +44,7 @@ public class Auth {
                if (future.get().getDocuments().get(0).getData().get("password").equals(password.getText())) {
                    HelloApplication.userName = username.getText();
                    HelloApplication.isAccount = true;
+                   HelloApplication.userId = (String)future.get().getDocuments().get(0).getData().get("uid");
                }
            }
         } catch (Exception e) {

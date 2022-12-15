@@ -82,22 +82,19 @@ public class HomePage extends BorderPane {
         bottom.setTextAlignment(TextAlignment.CENTER);
 
 
-        ChaddingPage cp = new ChaddingPage(stage, scene);
         // event handling
-        signUp.setOnAction(new SignupEventHandling(stage, cp.chaddingPageScene));
-        login.setOnAction(new SignupEventHandling(stage, cp.chaddingPageScene));
 
         // creating account
         signUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                SignUpPage signUpPage = new SignUpPage("Sign Up", stage, cp.chaddingPageScene);
+                SignUpPage signUpPage = new SignUpPage("Sign Up", stage, scene);
             }
         });
         login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                SignUpPage signUpPage = new SignUpPage("Log In", stage, cp.chaddingPageScene);
+                SignUpPage signUpPage = new SignUpPage("Log In", stage, scene);
             }
         });
     }
