@@ -58,7 +58,7 @@ public class ChaddingPage extends BorderPane {
     public void getInboxList() {
         // inbox data
         CollectionReference chats = db.collection("chat");
-        Query q = chats.whereArrayContains("users", new HashMap<String, Object>() { { put("uid", "1671123299609uid"); put("username", "afds"); } });
+        Query q = chats.whereArrayContains("users", new HashMap<String, Object>() { { put("uid", HelloApplication.userId); put("username", HelloApplication.userName); } });
         ApiFuture<QuerySnapshot> inboxChats = q.get();
 
         try {
@@ -135,9 +135,9 @@ public class ChaddingPage extends BorderPane {
 
         // Styling
         topHbox.setMinWidth(chaddingPageScene.getWidth());
-        welcomeContainer.setMinWidth(800*0.4);
-        buttonsContainer.setMinWidth(800*0.6);
-        welcomeLabel.setStyle("-fx-padding: 20; -fx-font-weight: 700; -fx-font-size: 25");
+        welcomeContainer.setMinWidth(800*0.5);
+        buttonsContainer.setMinWidth(800*0.5);
+        welcomeLabel.setStyle("-fx-padding: 20; -fx-font-weight: 700; -fx-font-size: 20");
         back.setStyle(HomePage.buttonStyles);
         search.setStyle(HomePage.buttonStyles);
         search.setCursor(Cursor.HAND);

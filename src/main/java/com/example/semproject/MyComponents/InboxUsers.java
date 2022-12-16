@@ -82,7 +82,6 @@ public class InboxUsers extends Button {
             public void run() {
                 // adding messages
                 for (HashMap<String, Object> d:messages) {
-                    System.out.println(d.get("body"));
                     container.getChildren().add(new Messages((String)d.get("body"), (String)d.get("uid")));
                 }
             }

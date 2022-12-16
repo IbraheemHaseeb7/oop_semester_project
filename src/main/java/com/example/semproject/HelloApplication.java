@@ -33,6 +33,7 @@ public class HelloApplication extends Application {
                     .build();
             FirebaseApp fb = FirebaseApp.initializeApp(options);
 
+
         } catch (Exception e) {
             System.out.println("Exception occurred: " + e.getMessage());
         }
