@@ -4,58 +4,33 @@ import com.example.semproject.Events.HoverIn;
 import com.example.semproject.Events.HoverOut;
 import com.example.semproject.HelloApplication;
 import com.example.semproject.MyComponents.InboxUsers;
-import com.example.semproject.MyComponents.Messages;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
-import com.google.cloud.firestore.EventListener;
 import com.google.firebase.cloud.FirestoreClient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Callable;
 
 public class ChaddingPage extends BorderPane {
     // ==================================
-    ArrayList<HashMap<String, Object>> messages = new ArrayList<>();
-    ArrayList<HashMap<Object, Object>> list = new ArrayList<>();
-    Firestore db = FirestoreClient.getFirestore();
+    public ArrayList<HashMap<String, Object>> chat = new ArrayList<>();
+    public ArrayList<HashMap<Object, Object>> list = new ArrayList<>();
+    public Firestore db = FirestoreClient.getFirestore();
 
-    {
-        // messages data
-        ApiFuture<QuerySnapshot> future = db.collection("chat").get();
-
-        try {
-            int counter = 0;
-            for (QueryDocumentSnapshot d:future.get().getDocuments()) {
-                if (future.get().getDocuments().size() - 1 == counter++) break;
-                messages.add((HashMap<String, Object>) d.getData());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // ==================================
-
-    public void getInboxList() {
+    public int getInboxList() {
         // inbox data
         CollectionReference chats = db.collection("chat");
         Query q = chats.whereArrayContains("users", new HashMap<String, Object>() { { put("uid", HelloApplication.userId); put("username", HelloApplication.userName); } });
@@ -83,12 +58,24 @@ public class ChaddingPage extends BorderPane {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
+        System.out.println("i was called");
+
+        return 0;
     }
 
-    Scene chaddingPageScene;
-    public ChaddingPage(Stage stage, Scene scene){
+    public Scene chaddingPageScene;
+    public Label welcomeLabel = new Label("Welcome back, ");
+    public Label name = new Label("Name");
+    public TextArea textArea = new TextArea();
+    public VBox leftVbox = new VBox();
+    public ScrollPane scrollPane = new ScrollPane();
+    public VBox messages = new VBox();
+    public Button send = new Button("Send");
 
-        getInboxList();
+
+
+    public ChaddingPage(Stage stage, Scene scene){
 
         chaddingPageScene = new Scene(this, 800, 500);
         this.setStyle("-fx-background-color: #fff");
@@ -97,21 +84,14 @@ public class ChaddingPage extends BorderPane {
         HBox welcomeContainer = new HBox();
         HBox buttonsContainer = new HBox();
         HBox centerHbox = new HBox();
-        VBox leftVbox = new VBox();
         VBox rightVbox = new VBox();
         HBox nameContainer = new HBox();
         HBox sendContainer = new HBox();
-        ScrollPane scrollPane = new ScrollPane();
-        VBox messages = new VBox();
 
         // Components
-        Label welcomeLabel = new Label("Welcome Back, " + HelloApplication.userName);
         Button back = new Button("Back");
         Button search = new Button("Search");
         Button logout = new Button("Logout");
-        Label name = new Label("Name");
-        TextArea textArea = new TextArea();
-        Button send = new Button("Send");
 
         // Adding components to layouts
         welcomeContainer.getChildren().add(welcomeLabel);
@@ -122,11 +102,6 @@ public class ChaddingPage extends BorderPane {
         rightVbox.getChildren().addAll(nameContainer, scrollPane, sendContainer);
         nameContainer.getChildren().add(name);
         sendContainer.getChildren().addAll(textArea, send);
-
-        // adding inbox list
-        for (HashMap<Object, Object> d:list) {
-            leftVbox.getChildren().add(new InboxUsers(chaddingPageScene, (String)d.get("name"), (String)d.get("room"), this.messages, messages, send, textArea, scrollPane, name));
-        }
 
         scrollPane.setContent(messages);
 
@@ -185,6 +160,15 @@ public class ChaddingPage extends BorderPane {
 
         search.addEventHandler(MouseEvent.MOUSE_ENTERED, new HoverIn(search));
         search.addEventHandler(MouseEvent.MOUSE_EXITED, new HoverOut(search));
+
+        ChaddingPage cp = this;
+
+        search.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Search search1 = new Search(stage, chaddingPageScene, cp);
+            }
+        });
 
         logout.addEventHandler(MouseEvent.MOUSE_ENTERED, new HoverIn(logout));
         logout.addEventHandler(MouseEvent.MOUSE_EXITED, new HoverOut(logout));

@@ -1,9 +1,11 @@
 package com.example.semproject;
 
+import com.example.semproject.AnimationComponents.Popup;
 import com.example.semproject.Firebase.Auth;
 import com.example.semproject.Pages.HomePage;
 import com.example.semproject.AnimationComponents.ShapesComponents;
 
+import com.example.semproject.Pages.Search;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -19,6 +21,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
+    public static Popup popup = new Popup();
     public static String userId = null;
     public static String userName = null;
     public static boolean isAccount = false;
@@ -38,7 +41,7 @@ public class HelloApplication extends Application {
             System.out.println("Exception occurred: " + e.getMessage());
         }
 
-        // creating layouts
+//        // creating layouts
         Group group = new Group();
         Scene scene = new Scene(group, 800, 500);
         scene.setFill(Color.WHITE);
@@ -48,7 +51,7 @@ public class HelloApplication extends Application {
         stage.show();
 
         // adding components to layouts
-        group.getChildren().addAll(new ShapesComponents(), new HomePage(stage, scene));
+        group.getChildren().addAll(new ShapesComponents(), new HomePage(stage, scene), popup);
     }
 
     public static void main(String[] args) {

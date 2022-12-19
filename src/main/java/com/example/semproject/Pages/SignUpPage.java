@@ -3,6 +3,8 @@ package com.example.semproject.Pages;
 import com.example.semproject.Events.HoverIn;
 import com.example.semproject.Events.HoverOut;
 import com.example.semproject.Firebase.Auth;
+import com.example.semproject.Firebase.Login;
+import com.example.semproject.Firebase.SignUp;
 import com.example.semproject.HelloApplication;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -90,19 +92,21 @@ public class SignUpPage extends VBox {
         button.addEventHandler(MouseEvent.MOUSE_ENTERED, new HoverIn(button));
         button.addEventHandler(MouseEvent.MOUSE_EXITED, new HoverOut(button));
 
+        ChaddingPage cp = new ChaddingPage(stage1, previousScene);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                button.setText("Working on it...");
-                ChaddingPage cp;
                 if (name.equals("Sign Up")) {
-                    new Auth().createAccount(username, password);
-                     cp = new ChaddingPage(stage1, previousScene);
+                    SignUp signUp = new SignUp(username, password, stage1, cp);
+                    signUp.start();
                 } else {
-                    new Auth().login(username, password);
-                     cp = new ChaddingPage(stage1, previousScene);
+                    Login login = new Login(username, password, stage1, cp);
+                    login.start();
                 }
-                if (HelloApplication.isAccount) stage1.setScene(cp.chaddingPageScene);
+                HelloApplication.popup.setMessage("Waiting for server...");
+                HelloApplication.popup.anim.play();
+                HelloApplication.popup.anim2.play();
+//                HelloApplication.popup.play();
                 stage.close();
             }
         });

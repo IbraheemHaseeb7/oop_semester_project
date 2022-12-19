@@ -17,7 +17,6 @@ public class Auth {
     public void createAccount(TextField username, PasswordField password) {
         Firestore db = FirestoreClient.getFirestore();
         Date date = new Date();
-//                int id = date.getTime()
 
         DocumentReference doc = db.collection("accounts").document(+date.getTime() + "uid");
         Map<String, String> data = new HashMap<>();

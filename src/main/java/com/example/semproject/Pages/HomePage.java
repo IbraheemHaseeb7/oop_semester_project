@@ -4,6 +4,7 @@ import com.example.semproject.Events.HoverIn;
 import com.example.semproject.Events.HoverOut;
 import com.example.semproject.Events.SignupEventHandling;
 import com.example.semproject.Firebase.Auth;
+import com.example.semproject.MyComponents.SearchComponent;
 import com.google.firebase.auth.FirebaseAuthException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
