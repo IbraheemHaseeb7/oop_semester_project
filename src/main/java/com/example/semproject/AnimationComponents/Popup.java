@@ -78,14 +78,11 @@ public class Popup extends HBox {
         anim2.setNode(this);
         anim2.setInterpolator(Interpolator.EASE_BOTH);
         anim2.setDelay(Duration.seconds(3));
+        anim.play();
+        anim2.play();
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void play() {
-        anim.play();
-        anim2.play();
     }
 }

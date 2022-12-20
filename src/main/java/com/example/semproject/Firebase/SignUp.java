@@ -10,26 +10,36 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class SignUp extends Thread {
 
     TextField username = new TextField();
     PasswordField password = new PasswordField();
     Stage stage;
-
+    Stage signUpStage;
+    Label warning;
+    TextArea bio;
     ChaddingPage cp;
 
-    public SignUp(TextField username, PasswordField password, Stage stage, ChaddingPage cp) {
+    public SignUp(TextField username, PasswordField password, Stage stage, ChaddingPage cp, Stage signUpStage, Label warning, TextArea bio) {
         this.username = username;
         this.password = password;
         this.stage = stage;
         this.cp = cp;
+        this.bio = bio;
+        this.warning = warning;
+        this.signUpStage = signUpStage;
     }
 
     @Override
@@ -38,12 +48,30 @@ public class SignUp extends Thread {
 
         Date date = new Date();
         String roomId = date.getTime() + "uid";
+
+        ApiFuture<QuerySnapshot> q = db.collection("accounts").whereEqualTo("username", username.getText()).get();
+        try {
+            if (q.get().getDocuments().size() == 1) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        warning.setText("This username already exists...");
+                        username.setText("");
+                    }
+                });
+                return;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         DocumentReference documentReference = db.collection("accounts").document(roomId);
 
         HashMap<String, String> data = new HashMap<>() {{
             put("uid", roomId);
             put("username", username.getText());
             put("password", password.getText());
+            put("bio", bio.getText());
         }};
 
 
@@ -60,12 +88,9 @@ public class SignUp extends Thread {
             @Override
             public void run() {
                 if (HelloApplication.isAccount) {
-//                    cp.getInboxList();
                     stage.setScene(cp.chaddingPageScene);
                     cp.welcomeLabel.setText("Welcome back, " + HelloApplication.userName);
-//                    for (HashMap<Object, Object> d:cp.list) {
-//                        cp.leftVbox.getChildren().add(new InboxUsers(cp.chaddingPageScene, (String)d.get("name"), (String)d.get("room"), cp.chat, cp.messages, cp.send, cp.textArea, cp.scrollPane, cp.name));
-//                    }
+                    signUpStage.close();
                 }
             }
         });

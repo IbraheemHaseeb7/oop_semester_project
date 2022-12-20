@@ -30,12 +30,12 @@ public class InboxUsers extends Button {
     TextArea textArea = new TextArea();
     ScrollPane scrollPane = new ScrollPane();
     Label nameLabel = new Label();
-    public InboxUsers(Scene scene, String name, String uid, ArrayList<HashMap<String, Object>> messages, VBox contain, Button send, TextArea textArea, ScrollPane scrollPane, Label nameLabel) {
+    public InboxUsers(Scene scene, String name, String uid, ArrayList<HashMap<String, Object>> messages, VBox container, Button send, TextArea textArea, ScrollPane scrollPane, Label nameLabel) {
 
         this.nameLabel = nameLabel;
         this.messages = messages;
         this.uid = uid;
-        this.container = contain;
+        this.container = container;
         this.send = send;
         this.textArea = textArea;
         this.scrollPane = scrollPane;
@@ -81,6 +81,7 @@ public class InboxUsers extends Button {
             @Override
             public void run() {
                 // adding messages
+                container.getChildren().clear();
                 for (HashMap<String, Object> d:messages) {
                     container.getChildren().add(new Messages((String)d.get("body"), (String)d.get("uid")));
                 }
