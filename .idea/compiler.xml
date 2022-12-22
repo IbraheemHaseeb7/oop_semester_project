@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="firebase" />
-        <module name="SemesterProject" />
         <module name="testingSemesterProject" />
+        <module name="firebase" />
+        <module name="SemProject" />
+        <module name="SemesterProject" />
       </profile>
     </annotationProcessing>
   </component>

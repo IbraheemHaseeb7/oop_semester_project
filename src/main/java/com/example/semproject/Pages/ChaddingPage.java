@@ -61,8 +61,6 @@ public class ChaddingPage extends BorderPane {
             e.printStackTrace();
         }
 
-        System.out.println("i was called");
-
         return 0;
     }
 
