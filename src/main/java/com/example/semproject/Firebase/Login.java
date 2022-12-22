@@ -47,6 +47,8 @@ public class Login extends Thread {
                     HelloApplication.userName = username.getText();
                     HelloApplication.isAccount = true;
                     HelloApplication.userId = (String)future.get().getDocuments().get(0).getData().get("uid");
+                    HelloApplication.bio = (String)future.get().getDocuments().get(0).getData().get("bio");
+                    HelloApplication.email = (String)future.get().getDocuments().get(0).getData().get("email");
                 }
             }
         } catch (Exception e) {

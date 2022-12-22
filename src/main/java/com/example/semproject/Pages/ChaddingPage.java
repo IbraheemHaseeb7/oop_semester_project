@@ -2,6 +2,8 @@ package com.example.semproject.Pages;
 
 import com.example.semproject.Events.HoverIn;
 import com.example.semproject.Events.HoverOut;
+import com.example.semproject.Events.LogoutHoverOut;
+import com.example.semproject.Events.LogutHoverIn;
 import com.example.semproject.HelloApplication;
 import com.example.semproject.MyComponents.InboxUsers;
 import com.google.api.core.ApiFuture;
@@ -90,12 +92,13 @@ public class ChaddingPage extends BorderPane {
 
         // Components
         Button back = new Button("Back");
+        Button profile = new Button("Profile");
         Button search = new Button("Search");
         Button logout = new Button("Logout");
 
         // Adding components to layouts
         welcomeContainer.getChildren().add(welcomeLabel);
-        buttonsContainer.getChildren().addAll(back, search, logout);
+        buttonsContainer.getChildren().addAll(back, search, profile, logout);
         topHbox.getChildren().addAll(welcomeContainer, buttonsContainer);
 
         centerHbox.getChildren().addAll(leftVbox, rightVbox);
@@ -115,9 +118,11 @@ public class ChaddingPage extends BorderPane {
         welcomeLabel.setStyle("-fx-padding: 20; -fx-font-weight: 700; -fx-font-size: 20");
         back.setStyle(HomePage.buttonStyles);
         search.setStyle(HomePage.buttonStyles);
+        profile.setStyle(HomePage.buttonStyles);
         search.setCursor(Cursor.HAND);
         logout.setCursor(Cursor.HAND);
         back.setCursor(Cursor.HAND);
+        profile.setCursor(Cursor.HAND);
         logout.setStyle("-fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: #ff6060; -fx-text-fill: #fff; -fx-margin: 10px; -fx-font-size: 15");
         topHbox.setStyle("-fx-border-width: 1; -fx-border-color: #ff0000; -fx-border-style: hidden hidden solid hidden;");
 
@@ -170,13 +175,31 @@ public class ChaddingPage extends BorderPane {
             }
         });
 
-        logout.addEventHandler(MouseEvent.MOUSE_ENTERED, new HoverIn(logout));
-        logout.addEventHandler(MouseEvent.MOUSE_EXITED, new HoverOut(logout));
+        logout.addEventHandler(MouseEvent.MOUSE_ENTERED, new LogutHoverIn(logout));
+        logout.addEventHandler(MouseEvent.MOUSE_EXITED, new LogoutHoverOut(logout));
         logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 HelloApplication.isAccount = false;
                 stage.setScene(scene);
+            }
+        });
+
+        profile.addEventHandler(MouseEvent.MOUSE_ENTERED, new HoverIn(profile));
+        profile.addEventHandler(MouseEvent.MOUSE_EXITED, new HoverOut(profile));
+
+        profile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ProfilePage page = new ProfilePage(stage, chaddingPageScene, true, HelloApplication.userName);
+            }
+        });
+
+        name.setCursor(Cursor.HAND);
+        name.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                ProfilePage page = new ProfilePage(stage, chaddingPageScene, false, name.getText());
             }
         });
     }

@@ -22,6 +22,8 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     public static String userId = null;
     public static String userName = null;
+    public static String bio = null;
+    public static String email = null;
     public static boolean isAccount = false;
     public static Group group = new Group();
 

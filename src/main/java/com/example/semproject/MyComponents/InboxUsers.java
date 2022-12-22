@@ -53,6 +53,7 @@ public class InboxUsers extends Button {
             @Override
             public void handle(ActionEvent e) {
                 nameLabel.setText(name);
+                nameLabel.setId(uid);
                 getMessages();
                 getRealTimeMessages();
             }

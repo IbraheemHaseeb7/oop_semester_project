@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 public class SignUp extends Thread {
 
     TextField username = new TextField();
+    TextField email = new TextField();
     PasswordField password = new PasswordField();
     Stage stage;
     Stage signUpStage;
@@ -32,12 +33,13 @@ public class SignUp extends Thread {
     TextArea bio;
     ChaddingPage cp;
 
-    public SignUp(TextField username, PasswordField password, Stage stage, ChaddingPage cp, Stage signUpStage, Label warning, TextArea bio) {
+    public SignUp(TextField username, PasswordField password, Stage stage, ChaddingPage cp, Stage signUpStage, Label warning, TextArea bio, TextField email) {
         this.username = username;
         this.password = password;
         this.stage = stage;
         this.cp = cp;
         this.bio = bio;
+        this.email = email;
         this.warning = warning;
         this.signUpStage = signUpStage;
     }
@@ -72,12 +74,15 @@ public class SignUp extends Thread {
             put("username", username.getText());
             put("password", password.getText());
             put("bio", bio.getText());
+            put("email", email.getText());
         }};
 
 
         try {
             ApiFuture<WriteResult> result = documentReference.set(data);
             HelloApplication.userName = username.getText();
+            HelloApplication.email = email.getText();
+            HelloApplication.bio = bio.getText();
             HelloApplication.isAccount = true;
             HelloApplication.userId = roomId;
         } catch (Exception e) {
